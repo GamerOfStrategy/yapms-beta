@@ -8,7 +8,6 @@
 	import EditCandidateModal from '$lib/components/modals/editcandidatemodal/EditCandidateModal.svelte';
 	import ChartBar from '$lib/components/chartbar/ChartBar.svelte';
 	import panzoom, { type PanZoom } from 'panzoom';
-	import { onMount } from 'svelte';
 
 	const imports = {
 		usa: () => import('$lib/assets/usa.svg?raw'),
