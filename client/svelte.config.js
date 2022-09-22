@@ -15,7 +15,14 @@ const config = {
 	kit: {
 		adapter: static_adapter({
 			fallback: '200.html',
-		})
+			pages: 'build',
+			assets: 'build',
+			precompress: false,
+		}),
+		trailingSlash: 'always',
+		paths: {
+			base: '/yapms-beta'
+		}
 	}
 };
 
