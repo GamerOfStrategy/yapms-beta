@@ -4,11 +4,11 @@
 	import NavBar from '$lib/components/navbar/NavBar.svelte';
 	import SideBar from '$lib/components/sidebar/SideBar.svelte';
 	import CandidateBox from '$lib/components/candidatebox/CandidateBox.svelte';
-	import { zoom } from 'd3-zoom';
-	import { select } from 'd3-selection';
 	import type Candidate from '$lib/types/Candidate';
 	import EditCandidateModal from '$lib/components/modals/editcandidatemodal/EditCandidateModal.svelte';
 	import ChartBar from '$lib/components/chartbar/ChartBar.svelte';
+	import panzoom, { type PanZoom } from 'panzoom';
+	import { onMount } from 'svelte';
 
 	const imports = {
 		usa: () => import('$lib/assets/usa.svg?raw'),
@@ -17,10 +17,12 @@
 
 	let currentMap = 'usa' as keyof typeof imports;
 	let mapBind: HTMLDivElement;
+	let panZoom: PanZoom;
 
 	let selectedCandidateId = 0;
 
 	let candidates: Candidate[] = [
+		{ id: -1, name: 'Tossup', margins: [{ color: 'grey', count: 0 }]},
 		{ id: 0, name: 'Joe Biden', margins: [{ color: 'blue', count: 0 }] },
 		{ id: 1, name: 'Donald Trump', margins: [{ color: 'red', count: 0 }] }
 	];
@@ -156,32 +158,40 @@
 		});
 	})();
 
-	$: (() => {
-		const selection = select(mapBind);
 
-		const myZoom = zoom().on('zoom', ({ transform }) => {
-			const { k, x, y } = transform;
-			const states = selection.select('.state');
-			const text = selection.select('#text');
-			states.attr('transform', `translate(${x}, ${y}) scale(${k})`);
-			text.attr('transform', `translate(${x}, ${y}) scale(${k})`);
-		});
+	function applyPanZoom(mapBind: HTMLDivElement) {
+		const svg = mapBind?.querySelector('#testing-map') as HTMLElement;
+		if (svg) {
+			panZoom = panzoom(svg, {
+				minZoom: 0.5,
+				maxZoom: 2,
+				smoothScroll: false,
+				autocenter: true,
+				zoomDoubleClickSpeed: 1,
+			});
+		}
+	}
 
-		// @ts-ignore
-		selection.call(myZoom).on('dblclick.zoom', null);
-	})();
-
-	$: if (mapBind) {
-		const states = mapBind.querySelector('.state');
+	function initializeMap(mapBind: HTMLDivElement) {
+		const states = mapBind?.querySelector('.state');
+		const candidatesCopy = candidates;
 		states?.childNodes.forEach((child) => {
 			const childHTML = child as HTMLElement;
-			console.log(childHTML);
 			if(childHTML.setAttribute) {
 				childHTML.setAttribute('fill', 'grey');
 				childHTML.setAttribute('stroke', 'black');
+				childHTML.setAttribute('candidate', '-1');
+				const candidate = candidatesCopy.find((c) => c.id === -1);
+				if (candidate) {
+					childHTML.setAttribute('fill', candidate.margins[0].color);
+					candidate.margins[0].count++;
+				}
 			}
 		});
+		candidates = candidatesCopy;
 	}
+
+	$: { applyPanZoom(mapBind); initializeMap(mapBind); }
 
 </script>
 

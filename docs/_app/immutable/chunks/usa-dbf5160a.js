@@ -1,4 +1,4 @@
-<!-- viewport="0 0 959 593"
+const l=`<!-- viewport="0 0 959 593"
    style="width: 100%; height:100%;"
 
 -->
@@ -263,3 +263,4 @@
          id="tspan3490">42</tspan></text>
   </g>
 </svg>
+`;export{l as default};
