@@ -1,5 +1,12 @@
 <script lang="ts">
 	export let open = true;
+	export let path: string;
+
+	import titles from '$lib/assets/other/Titles.json';
+
+	const title = titles.find((obj) => {
+		return obj.key === path;
+	});
 
 	import Fa from 'svelte-fa';
 	import { faLandmarkDome } from '@fortawesome/free-solid-svg-icons';
@@ -16,7 +23,13 @@
 			css: (t, u) => `margin-right: ${u * width * -1}px;`
 		};
 	}
+
+	console.log('testtt');
 </script>
+
+<svelte:head>
+	<title>YAPms{ title ? ' - ' + title.title : null }</title>
+</svelte:head>
 
 {#if open}
 	<div class="border-l-2 basis-3/12 hidden md:inline" transition:slideX={{ duration: 300 }}>
@@ -38,7 +51,7 @@
 				Mock Gov
 			</button>
 		</div>
-		<h1 class="text-xl text-center font-bold">USA 2024 Presidential Election</h1>
+		<h1 class="text-xl text-center font-bold">{path}</h1>
 		<div class="divider">Shortcuts</div>
 	</div>
 {/if}
