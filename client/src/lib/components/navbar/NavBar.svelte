@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Mode } from "$lib/types/Mode";
+	import type { Mode } from '$lib/types/Mode';
 
 	export let onHome: () => void;
 	export let onClear: () => void;

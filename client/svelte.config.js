@@ -1,5 +1,5 @@
-import adapter from '@sveltejs/adapter-auto';
-import static_adapter from '@sveltejs/adapter-static';
+// import adapter from '@sveltejs/adapter-auto';
+import adapter from '@sveltejs/adapter-node';
 import preprocess from 'svelte-preprocess';
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -13,18 +13,7 @@ const config = {
 	],
 
 	kit: {
-		adapter: static_adapter({
-			pages: 'docs',
-			assets: 'docs',
-			domain: null,
-			jekyll: false,
-			fallback: null,
-			precompress: false,
-		}),
-		prerender: {
-			entries: ["*"]
-		},
-		trailingSlash: 'always',
+		adapter: adapter(),
 	}
 };
 

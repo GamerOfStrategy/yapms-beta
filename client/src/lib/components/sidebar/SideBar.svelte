@@ -23,12 +23,10 @@
 			css: (t, u) => `margin-right: ${u * width * -1}px;`
 		};
 	}
-
-	console.log('testtt');
 </script>
 
 <svelte:head>
-	<title>YAPms{ title ? ' - ' + title.title : null }</title>
+	<title>YAPms{title ? ' - ' + title.title : null}</title>
 </svelte:head>
 
 {#if open}

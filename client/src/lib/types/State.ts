@@ -1,6 +1,7 @@
 interface State {
-  name: string;
-  value: number;
+	shortName: string;
+	longName: string;
+	value: number;
 }
 
 export default State;

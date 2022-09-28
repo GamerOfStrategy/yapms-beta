@@ -28,7 +28,7 @@
 	let selectedCandidateId = 0;
 
 	let candidates: Candidate[] = [
-		{ id: -1, name: 'Tossup', margins: [{ color: '#cccccc', count: 0 }]},
+		{ id: -1, name: 'Tossup', margins: [{ color: '#cccccc', count: 0 }] },
 		{ id: 0, name: 'Joe Biden', margins: [{ color: '#0000ff', count: 0 }] },
 		{ id: 1, name: 'Donald Trump', margins: [{ color: '#ff0000', count: 0 }] }
 	];
@@ -58,10 +58,11 @@
 	let editStateModal = {
 		open: false,
 		state: {
-			name: '',
-			value: 0,
+			shortName: '',
+			longName: '',
+			value: 0
 		},
-		onConfirm: () => {}
+		onConfirm: (values: { newValue: number }) => {}
 	};
 
 	function toggleMap() {
@@ -146,7 +147,8 @@
 		editStateModal = {
 			open: true,
 			state: state,
-			onConfirm: () => {
+			onConfirm: (newValues) => {
+				editState(state.shortName, newValues);
 				closeEditStateModal();
 			}
 		};
@@ -161,12 +163,12 @@
 
 	function fillState(state: HTMLElement) {
 		const newCandidates = candidates;
-		const selectedCandidate = newCandidates.find(c => c.id === selectedCandidateId);
+		const selectedCandidate = newCandidates.find((c) => c.id === selectedCandidateId);
 		if (selectedCandidate === undefined) {
 			return;
 		}
 		const currentCandidateID = state.getAttribute('candidate') || '-2';
-		const currentCandidate = newCandidates.find(c => c.id === parseInt(currentCandidateID));
+		const currentCandidate = newCandidates.find((c) => c.id === parseInt(currentCandidateID));
 		if (currentCandidate === undefined) {
 			return;
 		}
@@ -176,7 +178,7 @@
 		selectedCandidate.margins[0].count += value;
 		candidates = newCandidates;
 
-		const stateName = state.getAttribute('name');
+		const stateName = state.getAttribute('short-name');
 
 		if (stateName) {
 			const text = mapBind.querySelector('.' + stateName + '-text');
@@ -190,13 +192,32 @@
 		state.setAttribute('candidate', selectedCandidate.id.toString());
 	}
 
-	function editState(state: HTMLElement) {
-		const name = state.getAttribute('name');
-		const value = state.getAttribute('value');
-		openEditStateModal({
-			name: name || '',
-			value: value ? parseInt(value) : 0,
-		});
+	function editState(shortName: string, newValues: { newValue: number }) {
+		const path = mapBind?.querySelector(`[short-name="${shortName}"]`);
+		if (path) {
+			/* Update value */
+			const currentValue = parseInt(path.getAttribute('value') || '0');
+			path.setAttribute('value', newValues.newValue.toString());
+
+			/* Update candidate margins */
+			const newCandidates = candidates;
+			const currentCandidateID = parseInt(path.getAttribute('candidate') || '-2', 10);
+			const currentCandidate = newCandidates.find((c) => c.id === currentCandidateID);
+			if (currentCandidate) {
+				currentCandidate.margins[0].count -= currentValue;
+				currentCandidate.margins[0].count += newValues.newValue;
+				candidates = newCandidates;
+			}
+
+			/* Update text */
+			const texts = mapBind?.querySelector(`.${shortName}-text`);
+			if (texts) {
+				const bottom = texts.querySelector('.bottom');
+				if (bottom) {
+					bottom.innerHTML = newValues.newValue.toString();
+				}
+			}
+		}
 	}
 
 	$: {
@@ -207,12 +228,18 @@
 				if (mode === 'fill') {
 					fillState(domNode);
 				} else if (mode === 'edit') {
-					editState(domNode);
+					const shortName = domNode.getAttribute('short-name');
+					const longName = domNode.getAttribute('short-name');
+					const value = domNode.getAttribute('value');
+					openEditStateModal({
+						shortName: shortName || '',
+						longName: longName || '',
+						value: value ? parseInt(value, 10) : 0
+					});
 				}
 			};
 		});
 	}
-
 
 	function applyPanZoom(mapBind: HTMLDivElement) {
 		const svg = mapBind?.querySelector('#testing-map') as HTMLElement;
@@ -222,17 +249,18 @@
 				maxZoom: 2,
 				smoothScroll: false,
 				autocenter: true,
-				zoomDoubleClickSpeed: 1,
+				zoomDoubleClickSpeed: 1
 			});
 		}
 	}
 
 	function initializeMap(mapBind: HTMLDivElement) {
+		const texts = mapBind?.querySelector('.map-texts');
 		const states = mapBind?.querySelector('.state');
 		const candidatesCopy = candidates;
 		states?.childNodes.forEach((child) => {
 			const childHTML = child as HTMLElement;
-			if(childHTML.setAttribute) {
+			if (childHTML.setAttribute) {
 				childHTML.style.transition = 'all 0.15s linear';
 				childHTML.setAttribute('fill', 'grey');
 				childHTML.setAttribute('stroke', 'black');
@@ -243,13 +271,25 @@
 					const value = parseInt(childHTML.getAttribute('value') || '0');
 					candidate.margins[0].count += value;
 				}
+
+				if (texts) {
+					const text = texts.querySelector(`text[for="${childHTML.getAttribute('short-name')}`);
+					if (text) {
+						const bottom = text.querySelector('.bottom');
+						if (bottom) {
+							bottom.textContent = childHTML.getAttribute('value');
+						}
+					}
+				}
 			}
 		});
 		candidates = candidatesCopy;
 	}
 
-	$: { applyPanZoom(mapBind); initializeMap(mapBind); }
-
+	$: {
+		applyPanZoom(mapBind);
+		initializeMap(mapBind);
+	}
 </script>
 
 <div class="flex flex-col h-full">
@@ -262,7 +302,7 @@
 		onSetMode={(newMode) => {
 			mode = newMode;
 		}}
-		mode={mode}
+		{mode}
 	/>
 
 	<div class="flex flex-row h-full">
