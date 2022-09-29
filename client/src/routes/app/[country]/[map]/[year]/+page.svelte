@@ -148,7 +148,7 @@
 			open: true,
 			state: state,
 			onConfirm: (newValues) => {
-				editState(state.shortName, newValues);
+				editRegion(state.shortName, newValues);
 				closeEditStateModal();
 			}
 		};
@@ -161,38 +161,43 @@
 		};
 	}
 
-	function fillState(state: HTMLElement) {
+	function fillRegion(region: HTMLElement) {
 		const newCandidates = candidates;
 		const selectedCandidate = newCandidates.find((c) => c.id === selectedCandidateId);
 		if (selectedCandidate === undefined) {
 			return;
 		}
-		const currentCandidateID = state.getAttribute('candidate') || '-2';
+		const currentCandidateID = region.getAttribute('candidate') || '-2';
 		const currentCandidate = newCandidates.find((c) => c.id === parseInt(currentCandidateID));
 		if (currentCandidate === undefined) {
 			return;
 		}
 
-		const value = parseInt(state.getAttribute('value') || '0');
+		const value = parseInt(region.getAttribute('value') || '0');
 		currentCandidate.margins[0].count -= value;
 		selectedCandidate.margins[0].count += value;
 		candidates = newCandidates;
 
-		const stateName = state.getAttribute('short-name');
+		const regionName = region.getAttribute('short-name');
 
-		if (stateName) {
-			const text = mapBind.querySelector('.' + stateName + '-text');
+		if (regionName) {
+			const text = mapBind.querySelector(`.region-texts [for="${regionName}"]`)
 			if (text) {
 				const luma = calculateLumaHEX(selectedCandidate.margins[0].color);
 				(text as HTMLElement).style.color = luma > 0.5 ? '#000000' : '#ffffff';
 			}
+
+			const button = mapBind.querySelector(`.region-buttons [for="${regionName}"]`);
+			if (button) {
+				(button as HTMLElement).style.fill = selectedCandidate.margins[0].color;
+			}
 		}
 
-		state.setAttribute('fill', selectedCandidate.margins[0].color);
-		state.setAttribute('candidate', selectedCandidate.id.toString());
+		region.style.fill = selectedCandidate.margins[0].color;
+		region.setAttribute('candidate', selectedCandidate.id.toString());
 	}
 
-	function editState(shortName: string, newValues: { newValue: number }) {
+	function editRegion(shortName: string, newValues: { newValue: number }) {
 		const path = mapBind?.querySelector(`[short-name="${shortName}"]`);
 		if (path) {
 			/* Update value */
@@ -210,23 +215,20 @@
 			}
 
 			/* Update text */
-			const texts = mapBind?.querySelector(`.${shortName}-text`);
-			if (texts) {
-				const bottom = texts.querySelector('.bottom');
-				if (bottom) {
-					bottom.innerHTML = newValues.newValue.toString();
-				}
+			const text = mapBind.querySelector(`.region-texts [for="${shortName}"] .bottom`);
+			if (text) {
+				text.innerHTML = newValues.newValue.toString();
 			}
 		}
 	}
 
 	$: {
-		const states = mapBind?.querySelector('.state');
-		states?.childNodes.forEach((node) => {
+		const regions = mapBind?.querySelector('.regions');
+		regions?.childNodes.forEach((node) => {
 			const domNode = node as HTMLElement;
 			domNode.onclick = () => {
 				if (mode === 'fill') {
-					fillState(domNode);
+					fillRegion(domNode);
 				} else if (mode === 'edit') {
 					const shortName = domNode.getAttribute('short-name');
 					const longName = domNode.getAttribute('short-name');
@@ -236,6 +238,21 @@
 						longName: longName || '',
 						value: value ? parseInt(value, 10) : 0
 					});
+				}
+			};
+		});
+
+		const buttons = mapBind?.querySelector('.region-buttons');
+		buttons?.childNodes.forEach((child) => {
+			const buttonHTML = child as HTMLElement;
+			buttonHTML.onclick = () => {
+				if (mode === 'fill') {
+					const forRegion = buttonHTML.getAttribute('for');
+					const region = mapBind.querySelector('[short-name="' + forRegion + '"]');
+						console.log('test');
+					if (region) {
+						fillRegion(region as HTMLElement);
+					}
 				}
 			};
 		});
@@ -255,30 +272,42 @@
 	}
 
 	function initializeMap(mapBind: HTMLDivElement) {
-		const texts = mapBind?.querySelector('.map-texts');
-		const states = mapBind?.querySelector('.state');
 		const candidatesCopy = candidates;
-		states?.childNodes.forEach((child) => {
+		const candidate = candidatesCopy.find((c) => c.id === -1);
+
+		const texts = mapBind?.querySelector('.region-texts');
+		const buttons = mapBind?.querySelector('.region-buttons');
+		const regions = mapBind?.querySelector('.regions');
+		buttons?.childNodes.forEach((child) => {
+			const childHTML = child as HTMLElement;
+			if (childHTML) {
+				if (childHTML.style) {
+					if (candidate) {
+						childHTML.style.fill = candidate.margins[0].color;
+						childHTML.setAttribute('stroke', 'black');
+					}
+				}
+			}
+		});
+		regions?.childNodes.forEach((child) => {
 			const childHTML = child as HTMLElement;
 			if (childHTML.setAttribute) {
 				childHTML.style.transition = 'all 0.15s linear';
-				childHTML.setAttribute('fill', 'grey');
 				childHTML.setAttribute('stroke', 'black');
 				childHTML.setAttribute('candidate', '-1');
-				const candidate = candidatesCopy.find((c) => c.id === -1);
 				if (candidate) {
-					childHTML.setAttribute('fill', candidate.margins[0].color);
+					// childHTML.setAttribute('fill', candidate.margins[0].color);
+					childHTML.style.fill = candidate.margins[0].color;
 					const value = parseInt(childHTML.getAttribute('value') || '0');
 					candidate.margins[0].count += value;
 				}
 
 				if (texts) {
-					const text = texts.querySelector(`text[for="${childHTML.getAttribute('short-name')}`);
-					if (text) {
-						const bottom = text.querySelector('.bottom');
-						if (bottom) {
-							bottom.textContent = childHTML.getAttribute('value');
-						}
+					(texts as HTMLElement).style.pointerEvents = 'none';
+					const shortName = childHTML.getAttribute('short-name');
+					const b = texts.querySelector(`[for="${shortName}"] .bottom`);
+					if (b) {
+						b.textContent = childHTML.getAttribute('value');
 					}
 				}
 			}
