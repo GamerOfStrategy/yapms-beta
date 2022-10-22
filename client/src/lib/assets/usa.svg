@@ -27,14 +27,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      showgrid="false"
-     inkscape:zoom="2.2440042"
-     inkscape:cx="555.25742"
-     inkscape:cy="409.53577"
+     inkscape:zoom="4.4880084"
+     inkscape:cx="818.62592"
+     inkscape:cy="318.84967"
      inkscape:window-width="2560"
      inkscape:window-height="1369"
      inkscape:window-x="2552"
      inkscape:window-y="-8"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g416145" />
   <g
      class="regions"
      id="areas"
@@ -439,92 +440,114 @@
        d="m 355.3,143.7 -51,-5.3 -57.3,-7.9 -2,10.7 -8.5,54.8 -3.3,21.9 32.1,4.8 44.9,5.7 37.5,3.4 3.7,-44.2 z"
        id="path1388"
        style="fill:#bc0000;fill-opacity:1" />
-  <rect
-      class="cd"
-      short-name="dc"
-      long-name="District of Columbia"
-      value="3"
-     style="fill:#bc0000;fill-opacity:1"
-     id="rect315976-7-7-19"
-     width="40"
-     height="40"
-     x="890.68756"
-     y="494.41605"
-     rx="3"
-     ry="3" />
+    <rect
+       class="cd"
+       short-name="dc"
+       long-name="District of Columbia"
+       value="3"
+       style="fill:#bc0000;fill-opacity:1"
+       id="rect315976-7-7-19"
+       width="40"
+       height="40"
+       x="890.68756"
+       y="494.41605"
+       rx="3"
+       ry="3" />
   </g>
-  <g class="region-buttons">
-  <rect
-     for="ma"
-     style="fill:#bc0000;fill-opacity:1"
-     id="rect315976"
-     width="40"
-     height="40"
-     x="890.68756"
-     y="200"
-     rx="3"
-     ry="3" />
-  <rect
-     for="ri"
-     style="fill:#bc0000;fill-opacity:1"
-     id="rect315976-7"
-     width="40"
-     height="40"
-     x="890.68756"
-     y="249.06934"
-     rx="3"
-     ry="3" />
-  <rect
-     for="ct"
-     style="fill:#bc0000;fill-opacity:1"
-     id="rect315976-7-7"
-     width="40"
-     height="40"
-     x="890.68756"
-     y="298.13867"
-     rx="3"
-     ry="3" />
-  <rect
-     for="nj"
-     style="fill:#bc0000;fill-opacity:1"
-     id="rect315976-7-7-4"
-     width="40"
-     height="40"
-     x="890.68756"
-     y="347.20801"
-     rx="3"
-     ry="3" />
-  <rect
-     for="de"
-     style="fill:#bc0000;fill-opacity:1"
-     id="rect315976-7-7-1"
-     width="40"
-     height="40"
-     x="890.68756"
-     y="396.27734"
-     rx="3"
-     ry="3" />
-  <rect
-     for="md"
-     style="fill:#bc0000;fill-opacity:1"
-     id="rect315976-7-7-3"
-     width="40"
-     height="40"
-     x="890.68756"
-     y="445.34668"
-     rx="3"
-     ry="3" />
-  <rect
-     for="hi"
-     style="fill:#bc0000;fill-opacity:1"
-     id="rect315976-7-7-3-9"
-     width="40"
-     height="40"
-     x="243.4799"
-     y="545.39557"
-     rx="3"
-     ry="3" />
-     </g>
+  <g
+     class="region-buttons"
+     id="g63">
+    <rect
+       for="ma"
+       style="fill:#bc0000;fill-opacity:1"
+       id="rect315976"
+       width="40"
+       height="40"
+       x="842.16071"
+       y="396.27701"
+       rx="3"
+       ry="3" />
+    <rect
+       for="ri"
+       style="fill:#bc0000;fill-opacity:1"
+       id="rect315976-7"
+       width="40"
+       height="40"
+       x="842.16071"
+       y="445.34698"
+       rx="3"
+       ry="3" />
+    <rect
+       for="ct"
+       style="fill:#bc0000;fill-opacity:1"
+       id="rect315976-7-7"
+       width="40"
+       height="40"
+       x="890.68756"
+       y="298.13867"
+       rx="3"
+       ry="3" />
+    <rect
+       for="vt"
+       style="fill:#bc0000;fill-opacity:1"
+       id="rect315976-7-7-32"
+       width="40"
+       height="40"
+       x="890.68756"
+       y="249.41852"
+       rx="3"
+       ry="3" />
+    <rect
+       for="nh"
+       id="rect315976-7-7-34"
+       width="40"
+       height="40"
+       x="890.68756"
+       y="202.15211"
+       rx="3"
+       ry="3"
+       style="fill:#bc0000;fill-opacity:1" />
+    <rect
+       for="nj"
+       style="fill:#bc0000;fill-opacity:1"
+       id="rect315976-7-7-4"
+       width="40"
+       height="40"
+       x="890.68756"
+       y="347.20801"
+       rx="3"
+       ry="3" />
+    <rect
+       for="de"
+       style="fill:#bc0000;fill-opacity:1"
+       id="rect315976-7-7-1"
+       width="40"
+       height="40"
+       x="890.68756"
+       y="396.27734"
+       rx="3"
+       ry="3" />
+    <rect
+       for="md"
+       style="fill:#bc0000;fill-opacity:1"
+       id="rect315976-7-7-3"
+       width="40"
+       height="40"
+       x="890.68756"
+       y="445.34668"
+       rx="3"
+       ry="3" />
+    <rect
+       for="hi"
+       style="fill:#bc0000;fill-opacity:1"
+       id="rect315976-7-7-3-9"
+       width="40"
+       height="40"
+       x="243.4799"
+       y="545.39557"
+       rx="3"
+       ry="3" />
+  </g>
   <g
      class="region-texts"
      transform="translate(19.96002,8.6515941)"
@@ -533,7 +556,6 @@
        x="680.19812"
        y="229.68506"
        for="oh"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text415945"><tspan
@@ -553,7 +575,6 @@
        x="624.61932"
        y="238.55396"
        for="in"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text415949"><tspan
@@ -573,7 +594,6 @@
        x="641.48584"
        y="171.70917"
        for="mi"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text415953"><tspan
@@ -593,7 +613,6 @@
        x="560.28925"
        y="149.8732"
        for="wi"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text415957"><tspan
@@ -613,7 +632,6 @@
        x="484.16116"
        y="115.55952"
        for="mn"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text415961"><tspan
@@ -633,7 +651,6 @@
        x="396.5882"
        y="85.14843"
        for="nd"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text415965"><tspan
@@ -653,7 +670,6 @@
        x="268.5202"
        y="78.572083"
        for="mt"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text415969"><tspan
@@ -673,7 +689,6 @@
        x="103.93455"
        y="39.579285"
        for="wa"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text415973"><tspan
@@ -693,7 +708,6 @@
        x="78.241028"
        y="113.10854"
        for="or"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text415977"><tspan
@@ -713,7 +727,6 @@
        x="168.99809"
        y="137.39551"
        for="id"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text415981"><tspan
@@ -733,7 +746,6 @@
        x="50.237171"
        y="262.39526"
        for="ca"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text415985"><tspan
@@ -753,7 +765,6 @@
        x="116.68204"
        y="222.23318"
        for="nv"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text415989"><tspan
@@ -773,7 +784,6 @@
        x="199.41576"
        y="247.63263"
        for="ut"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text415993"><tspan
@@ -793,7 +803,6 @@
        x="180.96666"
        y="353.69467"
        for="az"
-       
        style="text-align:center;text-anchor:middle"
        xml:space="default"
        id="text415997"><tspan
@@ -813,7 +822,6 @@
        x="281.53775"
        y="362.21954"
        for="nm"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416001"><tspan
@@ -833,7 +841,6 @@
        x="301.39218"
        y="263.97192"
        for="co"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416005"><tspan
@@ -853,7 +860,6 @@
        x="277.91479"
        y="170.56998"
        for="wy"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416009"><tspan
@@ -873,7 +879,6 @@
        x="405.20126"
        y="215.89391"
        for="ne"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416013"><tspan
@@ -893,7 +898,6 @@
        x="399.3512"
        y="149.2113"
        for="sd"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416017"><tspan
@@ -913,7 +917,6 @@
        x="421.15475"
        y="281.13147"
        for="ks"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416021"><tspan
@@ -933,7 +936,6 @@
        x="442.11713"
        y="348.60266"
        for="ok"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416025"><tspan
@@ -953,7 +955,6 @@
        x="412.4646"
        y="444.03665"
        for="tx"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416029"><tspan
@@ -973,7 +974,6 @@
        x="102.39604"
        y="480.73907"
        for="ak"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416033"><tspan
@@ -993,7 +993,6 @@
        x="243.51402"
        y="553.51544"
        for="hi"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416037"><tspan
@@ -1013,7 +1012,6 @@
        x="525.87103"
        y="436.81537"
        for="la"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416041"><tspan
@@ -1033,7 +1031,6 @@
        x="523.59845"
        y="364.70877"
        for="ar"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416045"><tspan
@@ -1053,7 +1050,6 @@
        x="520.51904"
        y="286.36325"
        for="mo"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416049"><tspan
@@ -1073,7 +1069,6 @@
        x="503.74109"
        y="203.21851"
        for="ia"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416053"><tspan
@@ -1093,7 +1088,6 @@
        x="576.26825"
        y="243.45589"
        for="il"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416057"><tspan
@@ -1113,7 +1107,6 @@
        x="578.26404"
        y="405.98105"
        for="ms"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416061"><tspan
@@ -1133,7 +1126,6 @@
        x="631.97339"
        y="399.68814"
        for="al"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416065"><tspan
@@ -1153,7 +1145,6 @@
        x="692.25311"
        y="398.69803"
        for="ga"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416069"><tspan
@@ -1173,7 +1164,6 @@
        x="742.7937"
        y="489.52667"
        for="fl"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416073"><tspan
@@ -1193,7 +1183,6 @@
        x="739.95636"
        y="366.61255"
        for="sc"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416077"><tspan
@@ -1213,7 +1202,6 @@
        x="777.12134"
        y="321.88712"
        for="nc"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416083"><tspan
@@ -1233,7 +1221,6 @@
        x="636.40894"
        y="333.00555"
        for="tn"
-       
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416087"><tspan
@@ -1288,99 +1275,137 @@
          id="tspan3490-47-39"
          class="bottom">00</tspan></text>
     <text
-       x="898.09277"
-       y="208.11989"
+       x="849.91046"
+       y="404.58487"
        for="ma"
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416100"><tspan
          fill="currentColor"
-         x="890.21777"
-         y="208.11989"
+         x="842.03546"
+         y="404.58487"
          class="top"
          style="text-align:center;text-anchor:middle"
          id="tspan358582">MA</tspan><tspan
          sodipodi:role="line"
          fill="currentColor"
-         x="890.21777"
-         y="223.11989"
+         x="842.03546"
+         y="419.58487"
          id="tspan3490-47-39-1"
          class="bottom">00</tspan></text>
     <text
-       x="898.59668"
-       y="257.18924"
+       x="850.41437"
+       y="453.68127"
        for="ri"
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416104"><tspan
          fill="currentColor"
-         x="890.72168"
-         y="257.18924"
+         x="842.53937"
+         y="453.68127"
          class="top"
          style="text-align:center;text-anchor:middle"
          id="tspan358582-0">RI</tspan><tspan
          sodipodi:role="line"
          fill="currentColor"
-         x="890.72168"
-         y="272.18924"
+         x="842.53937"
+         y="468.68127"
          id="tspan3490-47-39-1-4"
          class="bottom">00</tspan></text>
     <text
        x="898.59668"
-       y="355.32791"
+       y="355.99564"
        for="nj"
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416108"><tspan
          fill="currentColor"
          x="890.72168"
-         y="355.32791"
+         y="355.99564"
          class="top"
          style="text-align:center;text-anchor:middle"
          id="tspan346901">NJ</tspan><tspan
          sodipodi:role="line"
          fill="currentColor"
          x="890.72168"
-         y="370.32791"
+         y="370.99564"
          id="tspan3490-47-39-59"
          class="bottom">00</tspan></text>
     <text
        x="898.35059"
-       y="404.39725"
+       y="404.84241"
        for="de"
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416112"><tspan
          fill="currentColor"
          x="890.47559"
-         y="404.39725"
+         y="404.84241"
          class="top"
          style="text-align:center;text-anchor:middle"
          id="tspan346901-4">DE</tspan><tspan
          sodipodi:role="line"
          fill="currentColor"
          x="890.47559"
-         y="419.39725"
+         y="419.84241"
          id="tspan3490-47-39-59-9"
          class="bottom">00</tspan></text>
     <text
        x="898.26562"
-       y="306.33768"
+       y="307.22794"
        for="ct"
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416116"><tspan
          fill="currentColor"
          x="890.39062"
-         y="306.33768"
+         y="307.22794"
          class="top"
          style="text-align:center;text-anchor:middle"
          id="tspan346901-8">CT</tspan><tspan
          sodipodi:role="line"
          fill="currentColor"
          x="890.39062"
-         y="321.33768"
+         y="322.22794"
          id="tspan3490-47-39-59-0"
+         class="bottom">00</tspan></text>
+    <text
+       x="898.60254"
+       y="209.45526"
+       for="nh"
+       xml:space="default"
+       style="text-align:center;text-anchor:middle"
+       id="text416116-1"><tspan
+         fill="currentColor"
+         x="890.72754"
+         y="209.45526"
+         class="top"
+         style="text-align:center;text-anchor:middle"
+         id="tspan346901-8-5">NH</tspan><tspan
+         sodipodi:role="line"
+         fill="currentColor"
+         x="890.72754"
+         y="224.45526"
+         id="tspan3490-47-39-59-0-5"
+         class="bottom">00</tspan></text>
+    <text
+       x="898.52637"
+       y="258.30206"
+       for="vt"
+       xml:space="default"
+       style="text-align:center;text-anchor:middle"
+       id="text416116-3"><tspan
+         fill="currentColor"
+         x="890.65137"
+         y="258.30206"
+         class="top"
+         style="text-align:center;text-anchor:middle"
+         id="tspan346901-8-52">VT</tspan><tspan
+         sodipodi:role="line"
+         fill="currentColor"
+         x="890.65137"
+         y="273.30206"
+         id="tspan3490-47-39-59-0-7"
          class="bottom">00</tspan></text>
     <text
        x="727.21838"
@@ -1460,21 +1485,21 @@
          id="tspan416134">00</tspan></text>
     <text
        x="898.36816"
-       y="453.46658"
+       y="453.68918"
        for="md"
        xml:space="default"
        style="text-align:center;text-anchor:middle"
        id="text416140"><tspan
          fill="currentColor"
          x="890.49316"
-         y="453.46658"
+         y="453.68918"
          class="top"
          style="text-align:center;text-anchor:middle"
          id="tspan346901-2">MD</tspan><tspan
          sodipodi:role="line"
          fill="currentColor"
          x="890.49316"
-         y="468.46658"
+         y="468.68918"
          id="tspan3490-47-39-59-4"
          class="bottom">00</tspan></text>
     <text

@@ -8,11 +8,13 @@
 	import type Candidate from '$lib/types/Candidate';
 	import EditCandidateModal from '$lib/components/modals/editcandidatemodal/EditCandidateModal.svelte';
 	import ChartBar from '$lib/components/chartbar/ChartBar.svelte';
-	import panzoom, { type PanZoom } from 'panzoom';
 	import { calculateLumaHEX } from '$lib/utils/luma';
 	import EditStateModal from '$lib/components/modals/editstatemodal/EditStateModal.svelte';
 	import type { Mode } from '$lib/types/Mode';
 	import type State from '$lib/types/State';
+	import { applyPanZoom, initializeMap, setupRegions, setupButtons } from './initialize';
+	import type { PanZoom } from 'panzoom';
+	import { _fillRegion, _editRegion } from './logic';
 
 	const imports = {
 		usa: () => import('$lib/assets/usa.svg?raw'),
@@ -23,13 +25,20 @@
 
 	let currentMap = 'usa' as keyof typeof imports;
 	let mapBind: HTMLDivElement;
-	let panZoom: PanZoom;
+	let panZoom: PanZoom | undefined;
 
 	let selectedCandidateId = 0;
 
 	let candidates: Candidate[] = [
 		{ id: -1, name: 'Tossup', margins: [{ color: '#cccccc', count: 0 }] },
-		{ id: 0, name: 'Joe Biden', margins: [{ color: '#0000ff', count: 0 }] },
+		{
+			id: 0,
+			name: 'Joe Biden',
+			margins: [
+				{ color: '#0000ff', count: 0 },
+				{ color: '#0000aa', count: 0 }
+			]
+		},
 		{ id: 1, name: 'Donald Trump', margins: [{ color: '#ff0000', count: 0 }] }
 	];
 
@@ -51,8 +60,11 @@
 
 	let editCandidateModal = {
 		open: false,
-		candidate: {} as Candidate,
-		onConfirm: () => {}
+		candidate: { id: -1, name: '', margins: [] } as Candidate,
+		onConfirm: (candidateId: number, colors: string[]) => {
+			editCandidate(candidateId, colors);
+			closeEditCandidateModal();
+		}
 	};
 
 	let editStateModal = {
@@ -130,9 +142,7 @@
 		editCandidateModal = {
 			open: true,
 			candidate,
-			onConfirm: () => {
-				closeEditCandidateModal();
-			}
+			onConfirm: editCandidateModal.onConfirm
 		};
 	}
 
@@ -143,7 +153,7 @@
 		};
 	}
 
-	function openEditStateModal(state: State) {
+	export function openEditStateModal(state: State) {
 		editStateModal = {
 			open: true,
 			state: state,
@@ -161,50 +171,40 @@
 		};
 	}
 
-	function fillRegion(region: HTMLElement) {
+	function editCandidate(candidateId: number, colors: string[]) {
 		const newCandidates = candidates;
-		const selectedCandidate = newCandidates.find((c) => c.id === selectedCandidateId);
-		if (selectedCandidate === undefined) {
-			return;
+		const newCandidate = newCandidates.find((candidate) => {
+			return candidate.id === candidateId;
+		});
+		if (newCandidate) {
+			newCandidate.margins = newCandidate.margins.map((margin, index) => {
+				margin.color = colors[index];
+				return margin;
+			});
+			candidates = newCandidates;
 		}
-		const currentCandidateID = region.getAttribute('candidate') || '-2';
-		const currentCandidate = newCandidates.find((c) => c.id === parseInt(currentCandidateID));
-		if (currentCandidate === undefined) {
-			return;
-		}
+		closeEditCandidateModal();
+	}
 
-		const value = parseInt(region.getAttribute('value') || '0');
-		currentCandidate.margins[0].count -= value;
-		selectedCandidate.margins[0].count += value;
-		candidates = newCandidates;
+	function getMode() {
+		return mode;
+	}
 
-		const regionName = region.getAttribute('short-name');
-
-		if (regionName) {
-			const text = mapBind.querySelector(`.region-texts [for="${regionName}"]`)
-			if (text) {
-				const luma = calculateLumaHEX(selectedCandidate.margins[0].color);
-				(text as HTMLElement).style.color = luma > 0.5 ? '#000000' : '#ffffff';
-			}
-
-			const button = mapBind.querySelector(`.region-buttons [for="${regionName}"]`);
-			if (button) {
-				(button as HTMLElement).style.fill = selectedCandidate.margins[0].color;
-			}
-		}
-
-		region.style.fill = selectedCandidate.margins[0].color;
-		region.setAttribute('candidate', selectedCandidate.id.toString());
+	function fillRegion(region: HTMLElement) {
+		candidates = _fillRegion(mapBind, region, selectedCandidateId, candidates);
 	}
 
 	function editRegion(shortName: string, newValues: { newValue: number }) {
+		const region = mapBind.querySelector(`[short-name="${shortName}"]`);
+		if (region) {
+			_editRegion(mapBind, region as HTMLElement, candidates, newValues.newValue);
+		}
+		/*
 		const path = mapBind?.querySelector(`[short-name="${shortName}"]`);
 		if (path) {
-			/* Update value */
 			const currentValue = parseInt(path.getAttribute('value') || '0');
 			path.setAttribute('value', newValues.newValue.toString());
 
-			/* Update candidate margins */
 			const newCandidates = candidates;
 			const currentCandidateID = parseInt(path.getAttribute('candidate') || '-2', 10);
 			const currentCandidate = newCandidates.find((c) => c.id === currentCandidateID);
@@ -214,110 +214,19 @@
 				candidates = newCandidates;
 			}
 
-			/* Update text */
 			const text = mapBind.querySelector(`.region-texts [for="${shortName}"] .bottom`);
 			if (text) {
 				text.innerHTML = newValues.newValue.toString();
 			}
 		}
+		*/
 	}
 
-	$: {
-		const regions = mapBind?.querySelector('.regions');
-		regions?.childNodes.forEach((node) => {
-			const domNode = node as HTMLElement;
-			domNode.onclick = () => {
-				if (mode === 'fill') {
-					fillRegion(domNode);
-				} else if (mode === 'edit') {
-					const shortName = domNode.getAttribute('short-name');
-					const longName = domNode.getAttribute('short-name');
-					const value = domNode.getAttribute('value');
-					openEditStateModal({
-						shortName: shortName || '',
-						longName: longName || '',
-						value: value ? parseInt(value, 10) : 0
-					});
-				}
-			};
-		});
-
-		const buttons = mapBind?.querySelector('.region-buttons');
-		buttons?.childNodes.forEach((child) => {
-			const buttonHTML = child as HTMLElement;
-			buttonHTML.onclick = () => {
-				if (mode === 'fill') {
-					const forRegion = buttonHTML.getAttribute('for');
-					const region = mapBind.querySelector('[short-name="' + forRegion + '"]');
-						console.log('test');
-					if (region) {
-						fillRegion(region as HTMLElement);
-					}
-				}
-			};
-		});
-	}
-
-	function applyPanZoom(mapBind: HTMLDivElement) {
-		const svg = mapBind?.querySelector('#testing-map') as HTMLElement;
-		if (svg) {
-			panZoom = panzoom(svg, {
-				minZoom: 0.5,
-				maxZoom: 2,
-				smoothScroll: false,
-				autocenter: true,
-				zoomDoubleClickSpeed: 1
-			});
-		}
-	}
-
-	function initializeMap(mapBind: HTMLDivElement) {
-		const candidatesCopy = candidates;
-		const candidate = candidatesCopy.find((c) => c.id === -1);
-
-		const texts = mapBind?.querySelector('.region-texts');
-		const buttons = mapBind?.querySelector('.region-buttons');
-		const regions = mapBind?.querySelector('.regions');
-		buttons?.childNodes.forEach((child) => {
-			const childHTML = child as HTMLElement;
-			if (childHTML) {
-				if (childHTML.style) {
-					if (candidate) {
-						childHTML.style.fill = candidate.margins[0].color;
-						childHTML.setAttribute('stroke', 'black');
-					}
-				}
-			}
-		});
-		regions?.childNodes.forEach((child) => {
-			const childHTML = child as HTMLElement;
-			if (childHTML.setAttribute) {
-				childHTML.style.transition = 'all 0.15s linear';
-				childHTML.setAttribute('stroke', 'black');
-				childHTML.setAttribute('candidate', '-1');
-				if (candidate) {
-					// childHTML.setAttribute('fill', candidate.margins[0].color);
-					childHTML.style.fill = candidate.margins[0].color;
-					const value = parseInt(childHTML.getAttribute('value') || '0');
-					candidate.margins[0].count += value;
-				}
-
-				if (texts) {
-					(texts as HTMLElement).style.pointerEvents = 'none';
-					const shortName = childHTML.getAttribute('short-name');
-					const b = texts.querySelector(`[for="${shortName}"] .bottom`);
-					if (b) {
-						b.textContent = childHTML.getAttribute('value');
-					}
-				}
-			}
-		});
-		candidates = candidatesCopy;
-	}
-
-	$: {
-		applyPanZoom(mapBind);
-		initializeMap(mapBind);
+	function setupMap(node: HTMLDivElement) {
+		panZoom = applyPanZoom(node);
+		candidates = initializeMap(node, candidates);
+		setupRegions(node, fillRegion, getMode, openEditStateModal);
+		setupButtons(node, fillRegion, getMode);
 	}
 </script>
 
@@ -359,7 +268,7 @@
 					{/each}
 				</div>
 				{#await imports[currentMap]() then module}
-					<div bind:this={mapBind} class="overflow-hidden h-full">
+					<div bind:this={mapBind} use:setupMap class="overflow-hidden h-full">
 						{@html module.default}
 					</div>
 				{/await}
