@@ -26,7 +26,7 @@
 </script>
 
 <svelte:head>
-	<title>YAPms{title ? ' - ' + title.title : null}</title>
+	<title>YAPms {title ? ' - ' + title.title : ''}</title>
 </svelte:head>
 
 {#if open}

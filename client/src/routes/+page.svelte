@@ -11,10 +11,10 @@
 		<div class="card-body">
 			<h2 class="card-title">United States</h2>
 			<div class="grid grid-cols-2 gap-2">
-				<a class="link" href="/app/usa/presidential">President</a>
-				<a class="link" href="/app/usa/senate">Senate</a>
-				<a class="link" href="/app/usa/house">House</a>
-				<a class="link" href="/app/usa/governor">Governor</a>
+				<a class="link" href="/app/usa/presidential/2022">President</a>
+				<a class="link" href="/app/usa/presidential/2022">Senate</a>
+				<a class="link" href="/app/usa/presidential/2022">House</a>
+				<a class="link" href="/app/usa/presidential/2022">Governor</a>
 			</div>
 			<div class="card-actions justify-end">
 				<button class="btn btn-sm btn-primary">Buy Now</button>

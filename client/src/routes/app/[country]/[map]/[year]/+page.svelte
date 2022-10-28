@@ -61,8 +61,8 @@
 	let editCandidateModal = {
 		open: false,
 		candidate: { id: -1, name: '', margins: [] } as Candidate,
-		onConfirm: (candidateId: number, colors: string[]) => {
-			editCandidate(candidateId, colors);
+		onConfirm: (candidateId: number, name: string, colors: string[]) => {
+			editCandidate(candidateId, name, colors);
 			closeEditCandidateModal();
 		}
 	};
@@ -171,12 +171,13 @@
 		};
 	}
 
-	function editCandidate(candidateId: number, colors: string[]) {
+	function editCandidate(candidateId: number, name: string, colors: string[]) {
 		const newCandidates = candidates;
 		const newCandidate = newCandidates.find((candidate) => {
 			return candidate.id === candidateId;
 		});
 		if (newCandidate) {
+			newCandidate.name = name;
 			newCandidate.margins = newCandidate.margins.map((margin, index) => {
 				margin.color = colors[index];
 				return margin;
@@ -197,29 +198,8 @@
 	function editRegion(shortName: string, newValues: { newValue: number }) {
 		const region = mapBind.querySelector(`[short-name="${shortName}"]`);
 		if (region) {
-			_editRegion(mapBind, region as HTMLElement, candidates, newValues.newValue);
+			candidates = _editRegion(mapBind, region as HTMLElement, candidates, newValues.newValue);
 		}
-		/*
-		const path = mapBind?.querySelector(`[short-name="${shortName}"]`);
-		if (path) {
-			const currentValue = parseInt(path.getAttribute('value') || '0');
-			path.setAttribute('value', newValues.newValue.toString());
-
-			const newCandidates = candidates;
-			const currentCandidateID = parseInt(path.getAttribute('candidate') || '-2', 10);
-			const currentCandidate = newCandidates.find((c) => c.id === currentCandidateID);
-			if (currentCandidate) {
-				currentCandidate.margins[0].count -= currentValue;
-				currentCandidate.margins[0].count += newValues.newValue;
-				candidates = newCandidates;
-			}
-
-			const text = mapBind.querySelector(`.region-texts [for="${shortName}"] .bottom`);
-			if (text) {
-				text.innerHTML = newValues.newValue.toString();
-			}
-		}
-		*/
 	}
 
 	function setupMap(node: HTMLDivElement) {
