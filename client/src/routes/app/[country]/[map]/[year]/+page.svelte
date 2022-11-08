@@ -8,13 +8,14 @@
 	import type Candidate from '$lib/types/Candidate';
 	import EditCandidateModal from '$lib/components/modals/editcandidatemodal/EditCandidateModal.svelte';
 	import ChartBar from '$lib/components/chartbar/ChartBar.svelte';
-	import { calculateLumaHEX } from '$lib/utils/luma';
 	import EditStateModal from '$lib/components/modals/editstatemodal/EditStateModal.svelte';
 	import type { Mode } from '$lib/types/Mode';
 	import type State from '$lib/types/State';
 	import { applyPanZoom, initializeMap, setupRegions, setupButtons } from './initialize';
 	import type { PanZoom } from 'panzoom';
-	import { _fillRegion, _editRegion } from './logic';
+	import { _fillRegion, _editRegion, _refreshRegions } from './logic';
+	import { onMount } from 'svelte';
+	import { themeChange } from 'theme-change';
 
 	const imports = {
 		usa: () => import('$lib/assets/usa.svg?raw'),
@@ -35,8 +36,9 @@
 			id: 0,
 			name: 'Joe Biden',
 			margins: [
+				{ color: '#00ff00', count: 0 },
 				{ color: '#0000ff', count: 0 },
-				{ color: '#0000aa', count: 0 }
+				{ color: '#ff0000', count: 0 }
 			]
 		},
 		{ id: 1, name: 'Donald Trump', margins: [{ color: '#ff0000', count: 0 }] }
@@ -76,6 +78,10 @@
 		},
 		onConfirm: (values: { newValue: number }) => {}
 	};
+
+	onMount(() => {
+		themeChange(false);
+	});
 
 	function toggleMap() {
 		currentMap = currentMap === 'usa' ? 'nz' : 'usa';
@@ -172,19 +178,27 @@
 	}
 
 	function editCandidate(candidateId: number, name: string, colors: string[]) {
-		const newCandidates = candidates;
+		const newCandidates = [...candidates];
 		const newCandidate = newCandidates.find((candidate) => {
 			return candidate.id === candidateId;
 		});
 		if (newCandidate) {
 			newCandidate.name = name;
+			/*
 			newCandidate.margins = newCandidate.margins.map((margin, index) => {
 				margin.color = colors[index];
 				return margin;
 			});
+			*/
+			console.log(newCandidate.margins);
+			newCandidate.margins = colors.map((color, index) => {
+				return { color, count: newCandidate.margins[index]?.count ?? 0 };
+			});
+			console.log(newCandidate.margins);
 			candidates = newCandidates;
 		}
 		closeEditCandidateModal();
+		_refreshRegions(mapBind, candidates);
 	}
 
 	function getMode() {
@@ -192,7 +206,7 @@
 	}
 
 	function fillRegion(region: HTMLElement) {
-		candidates = _fillRegion(mapBind, region, selectedCandidateId, candidates);
+		candidates = _fillRegion(mapBind, region, selectedCandidateId, candidates, true);
 	}
 
 	function editRegion(shortName: string, newValues: { newValue: number }) {
@@ -231,10 +245,14 @@
 		>
 			<div
 				class="flex basis-3/12 justify-center items-center"
-				class:border-r-2={chartbar.position === 'left'}
-				class:border-t-2={chartbar.position === 'bottom'}
 			>
+				{#if chartbar.position === 'bottom'}
+				<div class="divider divider-vertical" />
+				{/if}
 				<ChartBar {candidates} />
+				{#if chartbar.position === 'left'}
+				<div class="divider divider-horizontal" />
+				{/if}
 			</div>
 			<div class="basis-9/12 overflow-hidden">
 				<div class="flex flex-row flex-wrap justify-center relative pointer-events-none h-0 z-10">

@@ -24,4 +24,15 @@
 			<li><a on:click={onSetMode('edit')}>Edit</a></li>
 		</ul>
 	</div>
+	<div class="dropdown">
+		<label tabindex="0" class="btn btn-sm">Theme</label>
+		<ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+			<li><a data-set-theme="light" data-act-class="ACTIVECLASS">Light</a></li>
+			<li><a data-set-theme="dark" data-act-class="ACTIVECLASS">Dark</a></li>
+			<li><a data-set-theme="cupcake" data-act-class="ACTIVECLASS">Cupcake</a></li>
+			<li><a data-set-theme="aqua" data-act-class="ACTIVECLASS">Aqua</a></li>
+			<li><a data-set-theme="lofi" data-act-class="ACTIVECLASS">Lofi</a></li>
+			<li><a data-set-theme="night" data-act-class="ACTIVECLASS">Night</a></li>
+		</ul>
+	</div>
 </div>

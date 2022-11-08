@@ -9,8 +9,7 @@
 	});
 
 	import Fa from 'svelte-fa';
-	import { faLandmarkDome } from '@fortawesome/free-solid-svg-icons';
-	import { faDiscord, faReddit, faTwitter } from '@fortawesome/free-brands-svg-icons';
+	import { faReddit, faTwitter } from '@fortawesome/free-brands-svg-icons';
 
 	import type { TransitionConfig } from 'svelte/transition';
 
@@ -30,12 +29,9 @@
 </svelte:head>
 
 {#if open}
-	<div class="border-l-2 basis-3/12 hidden md:inline" transition:slideX={{ duration: 300 }}>
+	<div class="divider divider-horizontal"></div>
+	<div class="basis-3/12 hidden md:inline" transition:slideX={{ duration: 300 }}>
 		<div class="flex flex-wrap justify-center gap-2 p-2">
-			<button type="button" class="btn btn-sm gap-2">
-				<Fa icon={faDiscord} />
-				<div>Discord</div>
-			</button>
 			<button type="button" class="btn btn-sm gap-2">
 				<Fa icon={faReddit} />
 				Reddit
@@ -43,10 +39,6 @@
 			<button type="button" class="btn btn-sm gap-2">
 				<Fa icon={faTwitter} />
 				Twitter
-			</button>
-			<button type="button" class="btn btn-sm gap-2">
-				<Fa icon={faLandmarkDome} />
-				Mock Gov
 			</button>
 		</div>
 		<h1 class="text-xl text-center font-bold">{path}</h1>

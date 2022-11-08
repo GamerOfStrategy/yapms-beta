@@ -1,5 +1,6 @@
 import type Candidate from '$lib/types/Candidate';
 import type State from '$lib/types/State';
+import { calculateLumaHEX } from '$lib/utils/luma';
 import panzoom from 'panzoom';
 
 function applyPanZoom(mapBind: HTMLDivElement) {
@@ -45,6 +46,14 @@ function initializeMap(mapBind: HTMLDivElement, candidates: Candidate[]) {
 				childHTML.style.cursor = 'pointer';
 				const value = parseInt(childHTML.getAttribute('value') || '0');
 				candidate.margins[0].count += value;
+
+				const regionName= childHTML.getAttribute('class') || '';
+				const text = mapBind.querySelector(`.region-texts [for="${regionName}"]`)
+				if (text) {
+					const luma = calculateLumaHEX(candidate.margins[0].color);
+					(text as HTMLElement).style.color = luma > 0.5 ? 'black' : 'white';
+				}
+				
 			}
 
 			if (texts) {
@@ -60,41 +69,50 @@ function initializeMap(mapBind: HTMLDivElement, candidates: Candidate[]) {
 	return candidatesCopy;
 }
 
-function setupRegions(mapBind: HTMLDivElement, fillRegion: (region: HTMLElement) => void, getMode: () => string, openEditStateModal: (state: State) => void) {
-  const regions = mapBind.querySelector('.regions');
-  if (regions === null) return;
-  regions.childNodes.forEach((region) => {
-    const regionDom = region as HTMLElement;
-    regionDom.onclick = () => {
-      if (getMode() === 'fill') {
-        fillRegion(regionDom);
-      } else if ( getMode() === 'edit') {
-        const shortName = regionDom.getAttribute('short-name') ?? '';
-        const longName = regionDom.getAttribute('short-name') ?? '';
-        const value = regionDom.getAttribute('value') ?? '0';
-        openEditStateModal({
-          shortName: shortName,
-          longName: longName,
-          value: parseInt(value, 10)
-        });
-      }
-    };
-  });
+function setupRegions(
+	mapBind: HTMLDivElement,
+	fillRegion: (region: HTMLElement) => void,
+	getMode: () => string,
+	openEditStateModal: (state: State) => void
+) {
+	const regions = mapBind.querySelector('.regions');
+	if (regions === null) return;
+	regions.childNodes.forEach((region) => {
+		const regionDom = region as HTMLElement;
+		regionDom.onclick = () => {
+			if (getMode() === 'fill') {
+				fillRegion(regionDom);
+			} else if (getMode() === 'edit') {
+				const shortName = regionDom.getAttribute('short-name') ?? '';
+				const longName = regionDom.getAttribute('short-name') ?? '';
+				const value = regionDom.getAttribute('value') ?? '0';
+				openEditStateModal({
+					shortName: shortName,
+					longName: longName,
+					value: parseInt(value, 10)
+				});
+			}
+		};
+	});
 }
 
-function setupButtons(mapBind: HTMLDivElement, fillRegion: (a: HTMLElement) => void, getMode: () => string) {
-  const buttons = mapBind.querySelector('.region-buttons');
-  if (buttons === null) return;
-  buttons.childNodes.forEach((button) => {
-    const buttonDom = button as HTMLElement;
-    buttonDom.onclick = () => {
-      const forRegion = buttonDom.getAttribute('for');
-      const region = mapBind.querySelector(`[short-name="${forRegion}"]`);
-      if (region && getMode() === 'fill') {
-        fillRegion(region as HTMLElement);
-      }
-    };
-  });
+function setupButtons(
+	mapBind: HTMLDivElement,
+	fillRegion: (a: HTMLElement) => void,
+	getMode: () => string
+) {
+	const buttons = mapBind.querySelector('.region-buttons');
+	if (buttons === null) return;
+	buttons.childNodes.forEach((button) => {
+		const buttonDom = button as HTMLElement;
+		buttonDom.onclick = () => {
+			const forRegion = buttonDom.getAttribute('for');
+			const region = mapBind.querySelector(`[short-name="${forRegion}"]`);
+			if (region && getMode() === 'fill') {
+				fillRegion(region as HTMLElement);
+			}
+		};
+	});
 }
 
 export { applyPanZoom, initializeMap, setupRegions, setupButtons };

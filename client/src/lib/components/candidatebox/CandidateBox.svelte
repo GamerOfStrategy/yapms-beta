@@ -3,7 +3,7 @@
 	import { calculateLumaHEX } from '$lib/utils/luma';
 
 	export let candidate: Candidate;
-	export let selected: boolean = false;
+	export let selected = false;
 	export let onSelect: (candidate: Candidate) => void;
 	export let onEdit: (candidate: Candidate) => void;
 
